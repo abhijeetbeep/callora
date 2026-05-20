@@ -226,7 +226,8 @@ function App() {
             className="glass-panel-premium ml-0 flex w-fit items-center gap-4 rounded-full px-7 py-5"
           >
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#2B5C92] to-[#B3CDE0] shadow-[0_12px_30px_rgba(43, 92, 146,0.5)]">
-              <span className="text-lg font-black tracking-[-0.08em] text-[#0C1446]">C</span>
+              <img src="public/callora.jpg" alt="CALLORA" className="h-12 w-12 rounded-full object-cover"
+/>
             </div>
             <div className="leading-none">
               <p className="text-[1.2rem] font-extrabold tracking-[0.3em] text-white sm:text-[1.4rem]">CALLORA</p>
@@ -526,7 +527,7 @@ function App() {
         <div className="relative mx-auto grid max-w-7xl gap-12 px-6 py-16 sm:px-8 lg:grid-cols-[1.2fr,1fr,1fr] lg:px-10">
           <div>
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#2B5C92] to-[#B3CDE0] text-[#0C1446] font-black text-lg shadow-md">C</div>
+              <img src="public/callora.jpg" alt="CALLORA" className="w-10 h-10 rounded-full object-cover"/>
               <p className="text-2xl font-extrabold tracking-tight text-white">CALLORA</p>
             </div>
             <p className="mt-5 max-w-md text-sm leading-relaxed text-[#B3CDE0]/80 font-medium">Premium AI and digital solutions for businesses that want a modern presence and faster lead conversion.</p>
