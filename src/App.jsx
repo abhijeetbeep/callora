@@ -146,8 +146,8 @@ function App() {
     { label: 'Contact', href: '#contact' },
   ]
 
-  const whatsappHref = `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent('Hi CALLARO, I would like to discuss a project.')}`
-  const mailtoBase = `mailto:${contact.email}?subject=${encodeURIComponent('New project inquiry from CALLARO')}`
+  const whatsappHref = `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent('Hi CALLORA, I would like to discuss a project.')}`
+  const mailtoBase = `mailto:${contact.email}?subject=${encodeURIComponent('New project inquiry from CALLORA')}`
   const telHref = `tel:${contact.phoneNumber.replace(/[^+\d]/g, '')}`
 
   const handleSubmit = async (event) => {
@@ -199,7 +199,7 @@ function App() {
       <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-[#0C1446]/70 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 sm:px-8 lg:px-10">
           <a href="#home" className="inline-flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-[0.28em] text-[#B3CDE0]">CALLARO</span>
+            <span className="text-xs font-bold uppercase tracking-[0.28em] text-[#B3CDE0]">CALLORA</span>
           </a>
           <nav className="hidden items-center gap-7 sm:flex">
             {topNavLinks.map((link) => (
@@ -227,7 +227,7 @@ function App() {
               <span className="text-lg font-black tracking-[-0.08em] text-[#0C1446]">C</span>
             </div>
             <div className="leading-none">
-              <p className="text-[1.2rem] font-extrabold tracking-[0.3em] text-white sm:text-[1.4rem]">CALLARO</p>
+              <p className="text-[1.2rem] font-extrabold tracking-[0.3em] text-white sm:text-[1.4rem]">CALLORA</p>
               <div className="mt-1 flex items-center gap-3">
                 <span className="h-px w-8 bg-gradient-to-r from-[#2B5C92] to-[#B3CDE0]" />
                 <p className="text-[0.68rem] font-bold uppercase tracking-[0.45em] text-[#B3CDE0] sm:text-[0.75rem]">BPO SOLUTIONS</p>
@@ -525,7 +525,7 @@ function App() {
           <div>
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#2B5C92] to-[#B3CDE0] text-[#0C1446] font-black text-lg shadow-md">C</div>
-              <p className="text-2xl font-extrabold tracking-tight text-white">CALLARO</p>
+              <p className="text-2xl font-extrabold tracking-tight text-white">CALLORA</p>
             </div>
             <p className="mt-5 max-w-md text-sm leading-relaxed text-[#B3CDE0]/80 font-medium">Premium AI and digital solutions for businesses that want a modern presence and faster lead conversion.</p>
           </div>
