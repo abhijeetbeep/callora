@@ -18,8 +18,9 @@ import {
   ShieldCheck,
   Smartphone,
   Sparkles,
+  Users,
   MessagesSquare,
-} from 'lucide-react'
+  } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 const contact = {
@@ -39,6 +40,7 @@ const services = [
   { title: 'Chat Support', icon: MessagesSquare, description: 'Offer instant, human-feeling support with smooth handoffs and clean response loops.' },
   { title: 'Email Support', icon: Mail, description: 'Keep inbox communication professional, timely, and easy to manage.' },
   { title: 'Data Analytics', icon: BarChart3, description: 'Surface actionable insights with dashboards, reporting, and practical measurement.' },
+  { title: 'Hiring Solution', icon: Users, description: 'Connect businesses with skilled candidates through streamlined hiring and talent support.' },
 ]
 
 const reasons = [
