@@ -1,14 +1,12 @@
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
-  ArrowRight,
   BarChart3,
   Bot,
   BrainCircuit,
   Code2,
   Globe,
   Headphones,
-  Instagram,
-  Linkedin,
   Mail,
   MessageCircle,
   Megaphone,
@@ -20,8 +18,15 @@ import {
   Sparkles,
   Users,
   MessagesSquare,
-  } from 'lucide-react'
-import { useState, useEffect } from 'react'
+  ArrowRight,
+} from 'lucide-react'
+
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
+import ServiceCard from './components/ServiceCard'
+import SectionHeader from './components/SectionHeader'
+import Reveal from './components/Reveal'
+import Counter from './components/Counter'
 import logo from './callora.jpg'
 
 const contact = {
@@ -53,25 +58,32 @@ const reasons = [
   { title: 'Scalable Solutions', icon: Code2, text: 'Simple systems that can grow with the business instead of slowing it down.' },
 ]
 
-const socials = [
-  { label: 'Instagram', icon: Instagram, href: 'https://instagram.com' },
-  { label: 'LinkedIn', icon: Linkedin, href: 'https://linkedin.com' },
-  { label: 'WhatsApp', icon: MessageCircle, href: `https://wa.me/${contact.whatsappNumber}` },
+const counters = [
+  { label: 'Clients', value: 100, suffix: '+' },
+  { label: 'Projects', value: 250, suffix: '+' },
+  { label: 'Support', value: 24, suffix: '/7' },
+  { label: 'Satisfaction', value: 99, suffix: '%' },
 ]
 
-// 1. STAR PARTICLE ANIMATION - Minimal, glowing dots, twinkling
+const navLinks = [
+  { label: 'Home', href: '#home' },
+  { label: 'Services', href: '#services' },
+  { label: 'Why Us', href: '#why' },
+  { label: 'Contact', href: '#contact' },
+]
+
 const StarParticles = () => {
   const [stars, setStars] = useState([])
 
   useEffect(() => {
-    const generatedStars = Array.from({ length: 150 }).map(() => ({
-      id: Math.random(),
-      size: Math.random() * 2.5 + 1, // 1px to 3.5px
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      duration: Math.random() * 5 + 3, // 3s to 8s
-      delay: Math.random() * 5,
-      isTwinkle: Math.random() > 0.4,
+    const generatedStars = Array.from({ length: 80 }).map((_, idx) => ({
+      id: idx,
+      size: (idx % 3) * 1 + 1.5,
+      x: (idx * 17) % 100,
+      y: (idx * 23) % 100,
+      duration: (idx % 5) + 3,
+      delay: (idx % 4) * 0.8,
+      isTwinkle: idx % 2 === 0,
     }))
     setStars(generatedStars)
   }, [])
@@ -82,22 +94,22 @@ const StarParticles = () => {
         <motion.div
           key={star.id}
           className="absolute rounded-full bg-white"
-          style={{ 
-            width: star.size, 
-            height: star.size, 
-            left: `${star.x}%`, 
-            top: `${star.y}%`, 
-            boxShadow: '0 0 6px rgba(255,255,255,0.8)' 
+          style={{
+            width: star.size,
+            height: star.size,
+            left: `${star.x}%`,
+            top: `${star.y}%`,
+            boxShadow: '0 0 6px rgba(255,255,255,0.8)',
           }}
           animate={{
-            y: [0, -30, 0],
-            opacity: star.isTwinkle ? [0.2, 1, 0.2] : [0.5, 0.9, 0.5],
-            scale: star.isTwinkle ? [0.8, 1.3, 0.8] : 1,
+            y: [0, -25, 0],
+            opacity: star.isTwinkle ? [0.2, 1, 0.2] : [0.4, 0.8, 0.4],
+            scale: star.isTwinkle ? [0.8, 1.2, 0.8] : 1,
           }}
           transition={{
             duration: star.duration,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: 'easeInOut',
             delay: star.delay,
           }}
         />
@@ -106,52 +118,44 @@ const StarParticles = () => {
   )
 }
 
-// 4. FLOWING ABSTRACT SHAPES - Soft translucent curves using Framer Motion
 const AbstractBlobs = () => {
   return (
     <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden mix-blend-screen">
       <motion.div
         className="absolute -top-40 -left-40 w-[45vw] h-[45vw] rounded-[40%] bg-gradient-to-br from-[#B3CDE0]/10 to-transparent blur-[100px]"
         animate={{ rotate: 360, scale: [1, 1.1, 1] }}
-        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
       />
       <motion.div
         className="absolute top-[20%] -right-40 w-[55vw] h-[55vw] rounded-[45%] bg-gradient-to-bl from-[#2B5C92]/15 to-transparent blur-[100px]"
         animate={{ rotate: -360, scale: [1, 1.2, 1] }}
-        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
       />
-      <motion.div
-        className="absolute bottom-[-10%] left-[20%] w-[60vw] h-[60vw] rounded-[35%] bg-gradient-to-t from-white/5 to-transparent blur-[120px]"
-        animate={{ rotate: 360, scale: [1, 1.05, 1] }}
-        transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-      />
-    </div>
-  )
-}
-
-function SectionTitle({ eyebrow, title, text }) {
-  return (
-    <div className="max-w-3xl">
-      <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#B3CDE0]">{eyebrow}</p>
-      <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">{title}</h2>
-      <p className="mt-5 text-lg leading-relaxed text-[#B3CDE0]/80 max-w-2xl">{text}</p>
     </div>
   )
 }
 
 function App() {
-  const [form, setForm] = useState({ name: '', email: '', service: 'AI automation', message: '' })
+  const [scrolled, setScrolled] = useState(false)
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    service: services[0].title,
+    message: '',
+  })
   const [status, setStatus] = useState('idle')
-  const topNavLinks = [
-    { label: 'Home', href: '#home' },
-    { label: 'Services', href: '#services' },
-    { label: 'Why Us', href: '#why' },
-    { label: 'Contact', href: '#contact' },
-  ]
 
   const whatsappHref = `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent('Hi CALLORA, I would like to discuss a project.')}`
   const mailtoBase = `mailto:${contact.email}?subject=${encodeURIComponent('New project inquiry from CALLORA')}`
   const telHref = `tel:${contact.phoneNumber.replace(/[^+\d]/g, '')}`
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -181,7 +185,7 @@ function App() {
         window.location.href = `${mailtoBase}&body=${body}`
       }
 
-      setForm({ name: '', email: '', service: 'AI automation', message: '' })
+      setForm({ name: '', email: '', service: services[0].title, message: '' })
       setStatus('success')
     } catch {
       setStatus('error')
@@ -190,156 +194,177 @@ function App() {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-starry-premium text-white font-sans">
-      {/* 2 & 3. Ambient Glows & Grid */}
       <div className="grid-overlay" />
       <div className="ambient-glow-1" />
       <div className="ambient-glow-2" />
-      
-      {/* 1 & 4. Particles and Flowing Abstract Shapes */}
+
       <StarParticles />
       <AbstractBlobs />
 
-      <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-[#0C1446]/70 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 sm:px-8 lg:px-10">
-          <a href="#home" className="inline-flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-[0.28em] text-[#B3CDE0]">CALLORA</span>
-          </a>
-          <nav className="hidden items-center gap-7 sm:flex">
-            {topNavLinks.map((link) => (
-              <a key={link.label} href={link.href} className="text-xs font-bold uppercase tracking-[0.18em] text-white/85 transition hover:text-[#B3CDE0]">
-                {link.label}
-              </a>
-            ))}
-          </nav>
-          <a href={whatsappHref} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#B3CDE0]/30 bg-white/5 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition hover:bg-white/10">
-            <MessageCircle className="h-3.5 w-3.5" />
-            WhatsApp
-          </a>
-        </div>
-      </header>
+      <Navbar navLinks={navLinks} scrolled={scrolled} whatsappHref={whatsappHref} />
 
-      <main className="relative z-20 pt-16 sm:pt-18">
-        <div className="mx-auto max-w-7xl px-6 pt-8 sm:px-8 lg:px-10 lg:pt-10">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="glass-panel-premium ml-0 flex w-fit items-center gap-4 rounded-full px-7 py-5"
-          >
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#2B5C92] to-[#B3CDE0] shadow-[0_12px_30px_rgba(43, 92, 146,0.5)]">
-              <img src={logo} alt="CALLORA" className="h-12 w-12 rounded-full object-cover"
-/>
-            </div>
-            <div className="leading-none">
-              <p className="text-[1.2rem] font-extrabold tracking-[0.3em] text-white sm:text-[1.4rem]">CALLORA</p>
-              <div className="mt-1 flex items-center gap-3">
-                <span className="h-px w-8 bg-gradient-to-r from-[#2B5C92] to-[#B3CDE0]" />
-                <p className="text-[0.68rem] font-bold uppercase tracking-[0.45em] text-[#B3CDE0] sm:text-[0.75rem]">BPO SOLUTIONS</p>
-                <span className="h-px w-8 bg-gradient-to-r from-[#B3CDE0] to-[#2B5C92]" />
+      <main className="relative z-20 pt-20 sm:pt-24">
+        {/* Brand Badge */}
+        <div className="mx-auto max-w-7xl px-4 pt-4 sm:px-8 lg:px-10">
+          <Reveal delay={0.1}>
+            <div className="glass-panel-premium flex w-fit items-center gap-3.5 rounded-full px-5 py-3 sm:px-7 sm:py-4">
+              <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#2B5C92] to-[#B3CDE0] shadow-[0_8px_20px_rgba(43,92,146,0.5)]">
+                <img
+                  src={logo}
+                  alt="CALLORA"
+                  className="h-10 w-10 sm:h-11 sm:w-11 rounded-full object-cover"
+                  width="44"
+                  height="44"
+                />
               </div>
-            </div>
-          </motion.div>
-        </div>
-
-        <section id="home" className="mx-auto grid min-h-screen max-w-7xl items-center gap-12 px-6 py-18 sm:px-8 lg:grid-cols-[1.1fr,0.9fr] lg:gap-12 lg:py-24">
-          {/* LEFT: Content */}
-          <div className="order-1 flex w-full items-center">
-            <div className="w-full max-w-[45rem]">
-              <div className="mb-8 flex items-start gap-4">
-                <div className="h-24 w-1.5 rounded-full bg-gradient-to-b from-[#B3CDE0] via-[#2B5C92] to-transparent shadow-[0_12px_30px_rgba(179, 205, 224,0.3)]" />
-                <div>
-                  <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#B3CDE0]">Trusted by startups • 24/7 support • AI-powered</p>
-                  <p className="mt-2 max-w-md text-sm leading-6 text-[#B3CDE0]/70">Helping businesses scale with smart support, automation, and digital services.</p>
+              <div className="leading-none">
+                <p className="text-base sm:text-[1.2rem] font-extrabold tracking-[0.28em] text-white">CALLORA</p>
+                <div className="mt-1 flex items-center gap-2 sm:gap-3">
+                  <span className="h-px w-5 sm:w-8 bg-gradient-to-r from-[#2B5C92] to-[#B3CDE0]" />
+                  <p className="text-[0.6rem] sm:text-[0.7rem] font-bold uppercase tracking-[0.4em] text-[#B3CDE0]">
+                    BPO & AI SOLUTIONS
+                  </p>
+                  <span className="h-px w-5 sm:w-8 bg-gradient-to-r from-[#B3CDE0] to-[#2B5C92]" />
                 </div>
               </div>
+            </div>
+          </Reveal>
+        </div>
 
-              <motion.h1 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-2xl text-5xl font-extrabold leading-[1.1] tracking-tight text-white lg:text-[4.5rem]">
-                <span className="block">AI-Powered Business</span>
-                <span className="block text-gradient-premium">Support Solutions</span>
-              </motion.h1>
+        {/* Hero Section */}
+        <section id="home" className="mx-auto grid min-h-[calc(100vh-6rem)] max-w-7xl items-center gap-10 px-4 py-12 sm:px-8 lg:grid-cols-[1.1fr,0.9fr] lg:gap-12 lg:py-20">
+          <div className="order-1 flex w-full items-center">
+            <div className="w-full max-w-[45rem]">
+              <Reveal delay={0.2}>
+                <div className="mb-6 flex items-start gap-3.5">
+                  <div className="h-20 sm:h-24 w-1.5 rounded-full bg-gradient-to-b from-[#B3CDE0] via-[#2B5C92] to-transparent shadow-[0_12px_30px_rgba(179,205,224,0.3)]" />
+                  <div>
+                    <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#B3CDE0]">
+                      Trusted by startups • 24/7 support • AI-powered
+                    </p>
+                    <p className="mt-1.5 max-w-md text-xs sm:text-sm leading-relaxed text-[#B3CDE0]/70">
+                      Helping businesses scale with smart support, automation, and digital services.
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
 
-              <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.08 }} className="mt-8 max-w-xl text-xl leading-relaxed text-[#B3CDE0]/90">
-                <span className="font-bold text-white">Human support.</span> <span className="text-[#B3CDE0] font-bold">Enterprise speed.</span> Helping businesses scale with smart support, automation, and digital services.
-              </motion.p>
+              <Reveal delay={0.3}>
+                <h1 className="max-w-2xl text-4xl font-extrabold leading-[1.15] tracking-tight text-white sm:text-5xl lg:text-[4.2rem]">
+                  <span className="block">AI-Powered Business</span>
+                  <span className="block text-gradient-premium">Support Solutions</span>
+                </h1>
+              </Reveal>
 
-              <div className="mt-10 flex flex-wrap items-center gap-5">
-                <motion.a className="btn-premium inline-flex items-center gap-3 px-8 py-4 text-base cursor-pointer" href={whatsappHref} target="_blank" rel="noreferrer">
-                  <MessageCircle className="h-5 w-5" />
-                  Contact on WhatsApp
-                </motion.a>
+              <Reveal delay={0.4}>
+                <p className="mt-6 max-w-xl text-base sm:text-xl leading-relaxed text-[#B3CDE0]/90">
+                  <span className="font-bold text-white">Human support.</span>{' '}
+                  <span className="font-bold text-[#B3CDE0]">Enterprise speed.</span> Helping businesses scale with smart support, automation, and digital services.
+                </p>
+              </Reveal>
 
-                <motion.a className="btn-outline-premium inline-flex items-center gap-3 px-8 py-4 text-base font-bold cursor-pointer" href={telHref}>
-                  <Phone className="h-5 w-5" />
-                  Call Us
-                </motion.a>
-              </div>
+              <Reveal delay={0.5}>
+                <div className="mt-8 flex flex-wrap items-center gap-4 sm:gap-5">
+                  <a
+                    className="btn-premium inline-flex items-center gap-3 px-6 py-3.5 sm:px-8 sm:py-4 text-sm sm:text-base cursor-pointer"
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <MessageCircle className="h-5 w-5" />
+                    Contact on WhatsApp
+                  </a>
 
-              <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:max-w-[40rem]">
-                {[
-                  ['Smart People', 'Talented professionals dedicated to your success.'],
-                  ['Better Results', 'Data-driven solutions that drive real business growth.'],
-                ].map(([t, txt]) => (
-                  <motion.div key={t} className="glass-card-premium flex items-start gap-4 p-5">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#2B5C92]/30 text-[#B3CDE0] shadow-[0_14px_24px_rgba(43, 92, 146,0.3)] ring-1 ring-[#B3CDE0]/20">
-                      <Sparkles className="h-5 w-5" />
+                  <a
+                    className="btn-outline-premium inline-flex items-center gap-3 px-6 py-3.5 sm:px-8 sm:py-4 text-sm sm:text-base font-bold cursor-pointer"
+                    href={telHref}
+                  >
+                    <Phone className="h-5 w-5" />
+                    Call Us
+                  </a>
+                </div>
+              </Reveal>
+
+              <Reveal delay={0.6}>
+                <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:max-w-[40rem]">
+                  {[
+                    ['Smart People', 'Talented professionals dedicated to your success.'],
+                    ['Better Results', 'Data-driven solutions that drive real business growth.'],
+                  ].map(([t, txt]) => (
+                    <div key={t} className="glass-card-premium flex items-start gap-4 p-4 sm:p-5">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#2B5C92]/30 text-[#B3CDE0] ring-1 ring-[#B3CDE0]/20 shadow-sm">
+                        <Sparkles className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-white text-sm sm:text-base">{t}</p>
+                        <p className="mt-1 text-xs text-[#B3CDE0]/70 leading-relaxed">{txt}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-bold text-white">{t}</p>
-                      <p className="mt-1 text-sm text-[#B3CDE0]/70 leading-relaxed">{txt}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              </Reveal>
             </div>
           </div>
 
-          {/* RIGHT: Floating UI / Dashboard mockup */}
+          {/* RIGHT: Command Center Mockup */}
           <div className="order-2 flex w-full items-center justify-center">
-            <div className="relative w-full max-w-[42rem] py-8 lg:py-10">
-              <div className="relative z-30 mx-auto w-[94%]">
-                <div className="glass-panel-premium p-2">
-                  <div className="relative rounded-[36px] bg-[#0C1446]/40 p-7 shadow-inner backdrop-blur-md">
-                    <div className="flex items-center justify-between">
+            <Reveal delay={0.4} className="w-full max-w-[42rem]">
+              <div className="relative z-30 mx-auto w-full">
+                <div className="glass-panel-premium p-2 sm:p-3">
+                  <div className="relative rounded-[28px] sm:rounded-[36px] bg-[#0C1446]/50 p-5 sm:p-7 shadow-inner backdrop-blur-md">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                       <div>
-                        <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#B3CDE0]">Support Command Center</p>
-                        <p className="mt-2 text-2xl font-extrabold tracking-tight text-white">24/7 Human + AI Operations</p>
+                        <p className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.24em] text-[#B3CDE0]">
+                          Support Command Center
+                        </p>
+                        <p className="mt-1 text-xl sm:text-2xl font-extrabold tracking-tight text-white">
+                          24/7 Human + AI Operations
+                        </p>
                       </div>
-                      <div className="rounded-full border border-[#B3CDE0]/30 bg-[#2B5C92]/30 px-4 py-1.5 text-xs font-bold text-white shadow-sm">Online</div>
+                      <div className="w-fit rounded-full border border-[#B3CDE0]/30 bg-[#2B5C92]/30 px-3 py-1 text-xs font-bold text-white shadow-sm">
+                        Online
+                      </div>
                     </div>
 
-                    <div className="mt-8 grid gap-5 lg:grid-cols-[1fr,1fr]">
-                      <div className="glass-card-premium p-6">
-                        <div className="relative flex flex-col gap-4">
-                          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#2B5C92] to-[#B3CDE0] text-[#0C1446] shadow-lg">
-                            <Headphones className="h-7 w-7" />
+                    <div className="mt-6 grid gap-4 sm:gap-5 lg:grid-cols-2">
+                      <div className="glass-card-premium p-5 sm:p-6">
+                        <div className="relative flex flex-col gap-3.5">
+                          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#2B5C92] to-[#B3CDE0] text-[#0C1446] shadow-lg">
+                            <Headphones className="h-6 w-6" />
                           </div>
                           <div>
-                            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B3CDE0]">Human Support</p>
-                            <p className="mt-2 text-xl font-bold text-white">Reliable & Fast</p>
-                            <p className="mt-2 text-sm leading-relaxed text-[#B3CDE0]/80">Enterprise support experience with direct response and clear routing.</p>
+                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B3CDE0]">Human Support</p>
+                            <p className="mt-1 text-lg font-bold text-white">Reliable & Fast</p>
+                            <p className="mt-1.5 text-xs leading-relaxed text-[#B3CDE0]/80">
+                              Enterprise support experience with direct response and clear routing.
+                            </p>
                           </div>
                         </div>
                       </div>
 
-                      <div className="grid gap-5">
-                        <div className="glass-card-premium p-5">
-                          <div className="flex items-center justify-between text-sm font-semibold text-[#B3CDE0]">
+                      <div className="grid gap-4 sm:gap-5">
+                        <div className="glass-card-premium p-4 sm:p-5">
+                          <div className="flex items-center justify-between text-xs font-semibold text-[#B3CDE0]">
                             <span>Automation</span>
-                            <span className="text-white font-bold">72%</span>
+                            <span className="font-bold text-white">72%</span>
                           </div>
-                          <div className="mt-4 h-2 rounded-full bg-white/10">
+                          <div className="mt-3 h-2 rounded-full bg-white/10">
                             <div className="h-2 w-3/4 rounded-full bg-gradient-to-r from-[#2B5C92] to-[#B3CDE0] shadow-md" />
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-5">
-                          <div className="glass-card-premium p-5 text-center flex flex-col items-center justify-center">
-                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B3CDE0]">Active</p>
-                            <p className="mt-1 text-2xl font-extrabold text-white">+120</p>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="glass-card-premium flex flex-col items-center justify-center p-4 text-center">
+                            <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-[#B3CDE0]">
+                              Active
+                            </p>
+                            <p className="mt-1 text-xl sm:text-2xl font-extrabold text-white">+120</p>
                           </div>
-                          <div className="glass-card-premium p-5 text-center flex flex-col items-center justify-center">
-                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B3CDE0]">Response</p>
-                            <p className="mt-1 text-2xl font-extrabold text-white">24/7</p>
+                          <div className="glass-card-premium flex flex-col items-center justify-center p-4 text-center">
+                            <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-[#B3CDE0]">
+                              Response
+                            </p>
+                            <p className="mt-1 text-xl sm:text-2xl font-extrabold text-white">24/7</p>
                           </div>
                         </div>
                       </div>
@@ -347,128 +372,127 @@ function App() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </section>
 
-        <section id="services" className="relative mx-auto max-w-7xl px-6 py-24 sm:px-8 lg:px-10">
-          <div className="glass-panel-premium px-8 py-16 sm:px-10 lg:px-14">
-            <SectionTitle
+        {/* Counter Stats Section */}
+        <section className="mx-auto max-w-7xl px-4 py-8 sm:px-8 lg:px-10">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {counters.map((c) => (
+              <Counter key={c.label} label={c.label} value={c.value} suffix={c.suffix} />
+            ))}
+          </div>
+        </section>
+
+        {/* Services Section */}
+        <section id="services" className="relative mx-auto max-w-7xl px-4 py-16 sm:px-8 sm:py-24 lg:px-10">
+          <div className="glass-panel-premium px-6 py-12 sm:px-10 sm:py-16 lg:px-14">
+            <SectionHeader
               eyebrow="Services"
               title="Focused services that move the needle quickly"
-              text="A concise set of premium services designed for growth, automation, and support."
+              description="A concise set of premium services designed for growth, automation, and customer operations."
             />
 
-            <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {services.map((service) => (
-                <article
-                  key={service.title}
-                  className="glass-card-premium p-5 group"
-                >
-                  <div className="flex flex-col gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2B5C92]/30 ring-1 ring-[#B3CDE0]/20 shadow-sm transition duration-500 group-hover:scale-110 group-hover:shadow-[0_10px_30px_rgba(43, 92, 146,0.4)]">
-                      <service.icon className="h-4 w-4 text-[#B3CDE0]" />
-                    </div>
-                    <div>
-                      <h3 className="text-base font-bold text-white">{service.title}</h3>
-                      <p className="mt-1.5 text-xs leading-relaxed text-[#B3CDE0]/80">{service.description}</p>
-                    </div>
-                  </div>
-                </article>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {services.map((service, idx) => (
+                <Reveal key={service.title} delay={0.05 * (idx % 6)}>
+                  <ServiceCard service={service} index={idx} />
+                </Reveal>
               ))}
             </div>
           </div>
         </section>
 
-        <section id="why" className="relative mx-auto max-w-7xl px-6 py-24 sm:px-8 lg:px-10">
-          <div className="glass-panel-premium px-8 py-16 sm:px-10 lg:px-14">
-            <SectionTitle
+        {/* Why Choose Us Section */}
+        <section id="why" className="relative mx-auto max-w-7xl px-4 py-16 sm:px-8 sm:py-24 lg:px-10">
+          <div className="glass-panel-premium px-6 py-12 sm:px-10 sm:py-16 lg:px-14">
+            <SectionHeader
               eyebrow="Why Choose Us"
               title="Simple reasons to trust the team and move quickly."
-              text="The goal is not complexity. The goal is a premium, dependable experience that makes the next step obvious."
+              description="The goal is not complexity. The goal is a premium, dependable experience that makes the next step obvious."
             />
 
-            <div className="mt-14 grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
-              {reasons.map((item) => (
-                <article
-                  key={item.title}
-                  className="glass-card-premium p-5 group"
-                >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#2B5C92] to-[#B3CDE0] text-[#0C1446] shadow-lg transition duration-500 group-hover:shadow-[0_0_35px_rgba(179, 205, 224,0.4)] group-hover:scale-110">
-                    <item.icon className="h-4 w-4" />
-                  </div>
-                  <h3 className="mt-4 text-base font-bold text-white">{item.title}</h3>
-                  <p className="mt-1.5 text-xs leading-relaxed text-[#B3CDE0]/80">{item.text}</p>
-                </article>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+              {reasons.map((item, idx) => (
+                <Reveal key={item.title} delay={0.1 * (idx % 3)}>
+                  <article className="glass-card-premium group p-5">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#2B5C92] to-[#B3CDE0] text-[#0C1446] shadow-lg transition duration-500 group-hover:scale-110 group-hover:shadow-[0_0_35px_rgba(179,205,224,0.4)]">
+                      <item.icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="mt-4 text-base font-bold text-white">{item.title}</h3>
+                    <p className="mt-1.5 text-xs leading-relaxed text-[#B3CDE0]/80">{item.text}</p>
+                  </article>
+                </Reveal>
               ))}
             </div>
           </div>
         </section>
 
-        <section id="contact" className="relative mx-auto max-w-7xl px-6 py-24 sm:px-8 lg:px-10">
-          <div className="glass-panel-premium px-8 py-16 sm:px-10 lg:px-14">
-            <SectionTitle
+        {/* Contact Section */}
+        <section id="contact" className="relative mx-auto max-w-7xl px-4 py-16 sm:px-8 sm:py-24 lg:px-10">
+          <div className="glass-panel-premium px-6 py-12 sm:px-10 sm:py-16 lg:px-14">
+            <SectionHeader
               eyebrow="Contact"
               title="Make contacting effortless."
-              text="Tap WhatsApp, call directly, email instantly, or send a short inquiry. The contact area is the primary conversion path on the page."
+              description="Tap WhatsApp, call directly, email instantly, or send a short inquiry. The contact area is the primary conversion path on the page."
             />
 
-            <div className="mt-12 overflow-hidden rounded-[32px] bg-gradient-to-r from-[#0C1446] via-[#2B5C92] to-[#0C1446] px-8 py-6 text-white shadow-2xl border border-[#B3CDE0]/20">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-sm font-bold uppercase tracking-[0.2em] text-white/90">Human support. Enterprise response. 24/7 availability.</p>
-                <p className="text-sm font-medium text-white/90">Fast contact options for calls, WhatsApp, and email.</p>
+            <div className="mt-10 overflow-hidden rounded-[24px] sm:rounded-[32px] bg-gradient-to-r from-[#0C1446] via-[#2B5C92] to-[#0C1446] px-6 py-5 sm:px-8 sm:py-6 text-white shadow-2xl border border-[#B3CDE0]/20">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-white/90">
+                  Human support. Enterprise response. 24/7 availability.
+                </p>
+                <p className="text-xs sm:text-sm font-medium text-[#B3CDE0]">
+                  Fast contact options for calls, WhatsApp, and email.
+                </p>
               </div>
             </div>
 
-            <div className="mt-12 grid gap-10 lg:grid-cols-[1fr,1.1fr]">
-              <div className="space-y-8">
-                <div className="grid gap-5 sm:grid-cols-3 lg:grid-cols-1">
+            <div className="mt-10 grid gap-8 lg:grid-cols-[1fr,1.1fr]">
+              <div className="space-y-6 sm:space-y-8">
+                <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
                   <ContactCard icon={MessageCircle} title="WhatsApp" text="Start a direct chat" href={whatsappHref} />
-                  <ContactCard icon={Phone} title="Call" text="Open the dialer instantly" href={telHref} />
-                  <ContactCard icon={Mail} title="Email" text="Open the mail app" href={mailtoBase} />
+                  <ContactCard icon={Phone} title="Call" text="Open dialer instantly" href={telHref} />
+                  <ContactCard icon={Mail} title="Email" text="Open mail app" href={mailtoBase} />
                 </div>
 
-                <div className="glass-card-premium p-5">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B3CDE0]">Quick Social Links</p>
-                  <div className="mt-5 flex flex-wrap gap-4">
-                    {socials.map((social) => (
-                      <a key={social.label} href={social.href} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-white/5 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-1 hover:bg-white/10 hover:shadow-md border border-white/10">
-                        <social.icon className="h-4 w-4" />
-                        {social.label}
-                      </a>
-                    ))}
-                  </div>
+                <div className="glass-card-premium p-5 sm:p-6">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B3CDE0]">Contact Details</p>
 
-                  <div className="mt-8 grid gap-5 sm:grid-cols-3">
-                    <div className="rounded-[24px] bg-white/5 p-5 shadow-sm border border-white/10">
-                      <p className="text-xs font-bold text-[#B3CDE0] uppercase tracking-widest">Phone</p>
-                      <p className="mt-2 font-bold text-white text-sm">{contact.phoneNumber}</p>
+                  <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                    <div className="rounded-[20px] bg-white/5 p-4 border border-white/10">
+                      <p className="text-[10px] font-bold text-[#B3CDE0] uppercase tracking-widest">Phone</p>
+                      <p className="mt-1.5 font-bold text-white text-xs sm:text-sm break-words">{contact.phoneNumber}</p>
                     </div>
-                    <div className="rounded-[24px] bg-white/5 p-5 shadow-sm border border-white/10">
-                      <p className="text-xs font-bold text-[#B3CDE0] uppercase tracking-widest">Email</p>
-                      <p className="mt-2 break-all font-bold text-white text-sm">{contact.email}</p>
+                    <div className="rounded-[20px] bg-white/5 p-4 border border-white/10">
+                      <p className="text-[10px] font-bold text-[#B3CDE0] uppercase tracking-widest">Email</p>
+                      <p className="mt-1.5 font-bold text-white text-xs sm:text-sm break-all">{contact.email}</p>
                     </div>
-                    <div className="rounded-[24px] bg-white/5 p-5 shadow-sm border border-white/10">
-                      <p className="text-xs font-bold text-[#B3CDE0] uppercase tracking-widest">WhatsApp</p>
-                      <p className="mt-2 font-bold text-white text-sm">Fast direct chat</p>
+                    <div className="rounded-[20px] bg-white/5 p-4 border border-white/10">
+                      <p className="text-[10px] font-bold text-[#B3CDE0] uppercase tracking-widest">WhatsApp</p>
+                      <p className="mt-1.5 font-bold text-white text-xs sm:text-sm">Fast direct chat</p>
                     </div>
                   </div>
                 </div>
               </div>
 
+              {/* Inquiry Form */}
               <div className="glass-panel-premium p-6 sm:p-8">
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B3CDE0]">Simple Lead Form</p>
-                <h3 className="mt-3 text-3xl font-extrabold text-white">Send a short inquiry</h3>
-                <p className="mt-3 text-sm leading-relaxed text-[#B3CDE0]/80">This form works with Formspree when you set an endpoint. Without that, it falls back to the mail app.</p>
+                <h3 className="mt-2 text-2xl sm:text-3xl font-extrabold text-white">Send a short inquiry</h3>
+                <p className="mt-2 text-xs sm:text-sm leading-relaxed text-[#B3CDE0]/80">
+                  This form works with Formspree when set up, or opens your mail app directly.
+                </p>
 
-                <form className="mt-8 grid gap-5" onSubmit={handleSubmit}>
-                  <div className="grid gap-5 sm:grid-cols-2">
+                <form className="mt-6 grid gap-4 sm:gap-5" onSubmit={handleSubmit}>
+                  <div className="grid gap-4 sm:grid-cols-2">
                     <Field label="Name">
                       <input
                         required
                         value={form.name}
                         onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
-                        className="glass-input-premium w-full px-5 py-4 font-medium"
+                        className="glass-input-premium w-full px-4 py-3.5 text-sm font-medium"
                         placeholder="Your name"
                       />
                     </Field>
@@ -478,7 +502,7 @@ function App() {
                         type="email"
                         value={form.email}
                         onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
-                        className="glass-input-premium w-full px-5 py-4 font-medium"
+                        className="glass-input-premium w-full px-4 py-3.5 text-sm font-medium"
                         placeholder="you@company.com"
                       />
                     </Field>
@@ -488,7 +512,7 @@ function App() {
                     <select
                       value={form.service}
                       onChange={(event) => setForm((current) => ({ ...current, service: event.target.value }))}
-                      className="glass-input-premium w-full px-5 py-4 font-medium appearance-none"
+                      className="glass-input-premium w-full px-4 py-3.5 text-sm font-medium appearance-none"
                     >
                       {services.map((service) => (
                         <option key={service.title} value={service.title} className="bg-[#0C1446] text-white">
@@ -504,18 +528,30 @@ function App() {
                       rows="4"
                       value={form.message}
                       onChange={(event) => setForm((current) => ({ ...current, message: event.target.value }))}
-                      className="glass-input-premium w-full px-5 py-4 font-medium resize-none"
+                      className="glass-input-premium w-full px-4 py-3.5 text-sm font-medium resize-none"
                       placeholder="Tell us what you need"
                     />
                   </Field>
 
-                  <button type="submit" disabled={status === 'loading'} className="mt-2 inline-flex items-center justify-center gap-3 btn-premium px-8 py-4 text-base font-bold shadow-xl transition disabled:cursor-not-allowed disabled:opacity-70">
+                  <button
+                    type="submit"
+                    disabled={status === 'loading'}
+                    className="mt-2 inline-flex items-center justify-center gap-3 btn-premium px-6 py-4 text-sm sm:text-base font-bold shadow-xl transition disabled:cursor-not-allowed disabled:opacity-70"
+                  >
                     {status === 'loading' ? 'Sending...' : 'Send Inquiry'}
                     <Send className="h-5 w-5" />
                   </button>
 
-                  {status === 'success' ? <p className="mt-2 text-sm font-bold text-[#B3CDE0] bg-[#2B5C92]/20 p-3 rounded-xl border border-[#2B5C92]/40 text-center">Your message is ready to go.</p> : null}
-                  {status === 'error' ? <p className="mt-2 text-sm font-bold text-red-300 bg-red-900/20 p-3 rounded-xl border border-red-900/40 text-center">Something went wrong. Try WhatsApp or email instead.</p> : null}
+                  {status === 'success' ? (
+                    <p className="mt-2 text-xs sm:text-sm font-bold text-[#B3CDE0] bg-[#2B5C92]/20 p-3 rounded-xl border border-[#2B5C92]/40 text-center">
+                      Your inquiry has been submitted!
+                    </p>
+                  ) : null}
+                  {status === 'error' ? (
+                    <p className="mt-2 text-xs sm:text-sm font-bold text-red-300 bg-red-900/20 p-3 rounded-xl border border-red-900/40 text-center">
+                      Something went wrong. Try WhatsApp or email instead.
+                    </p>
+                  ) : null}
                 </form>
               </div>
             </div>
@@ -523,57 +559,35 @@ function App() {
         </section>
       </main>
 
-      <footer className="relative mt-20 border-t border-white/10 bg-[#0C1446]/80 backdrop-blur-xl">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0C1446] pointer-events-none" />
-        <div className="relative mx-auto grid max-w-7xl gap-12 px-6 py-16 sm:px-8 lg:grid-cols-[1.2fr,1fr,1fr] lg:px-10">
-          <div>
-            <div className="flex items-center gap-3">
-              <img src={logo} alt="CALLORA" className="w-10 h-10 rounded-full object-cover"/>
-              <p className="text-2xl font-extrabold tracking-tight text-white">CALLORA</p>
-            </div>
-            <p className="mt-5 max-w-md text-sm leading-relaxed text-[#B3CDE0]/80 font-medium">Premium AI and digital solutions for businesses that want a modern presence and faster lead conversion.</p>
-          </div>
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B3CDE0]">Quick Links</p>
-            <div className="mt-6 flex flex-col gap-4 text-sm font-semibold text-white/90">
-              <a href="#services" className="w-fit transition hover:text-[#B3CDE0]">Services</a>
-              <a href="#why" className="w-fit transition hover:text-[#B3CDE0]">Why Choose Us</a>
-              <a href="#contact" className="w-fit transition hover:text-[#B3CDE0]">Contact</a>
-            </div>
-          </div>
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B3CDE0]">Contact</p>
-            <div className="mt-6 space-y-4 text-sm font-semibold text-white/90">
-              <p className="flex items-center gap-3"><Phone className="w-4 h-4 text-[#B3CDE0]"/>{contact.phoneNumber}</p>
-              <p className="flex items-center gap-3"><Mail className="w-4 h-4 text-[#B3CDE0]"/>{contact.email}</p>
-              <p className="flex items-center gap-3"><MessageCircle className="w-4 h-4 text-emerald-400"/>WhatsApp available 24/7</p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer navLinks={navLinks} contact={contact} />
     </div>
   )
 }
 
 function ContactCard({ icon: Icon, title, text, href }) {
   return (
-    <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noreferrer' : undefined} className="group glass-card-premium flex items-center gap-5 p-5">
-      <span className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-[#2B5C92]/30 text-[#B3CDE0] ring-1 ring-[#B3CDE0]/20 shadow-sm transition duration-500 group-hover:rotate-6 group-hover:scale-110`}>
-        <Icon className="h-6 w-6" />
+    <a
+      href={href}
+      target={href.startsWith('http') ? '_blank' : undefined}
+      rel={href.startsWith('http') ? 'noreferrer' : undefined}
+      className="group glass-card-premium flex items-center gap-4 p-4 sm:p-5"
+    >
+      <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#2B5C92]/30 text-[#B3CDE0] ring-1 ring-[#B3CDE0]/20 shadow-sm transition duration-500 group-hover:rotate-6 group-hover:scale-110">
+        <Icon className="h-5 w-5" />
       </span>
       <div className="flex-1">
-        <p className="font-bold text-white text-lg">{title}</p>
-        <p className="mt-1 text-sm font-medium text-[#B3CDE0]/70">{text}</p>
+        <p className="font-bold text-white text-base">{title}</p>
+        <p className="mt-0.5 text-xs font-medium text-[#B3CDE0]/70">{text}</p>
       </div>
-      <ArrowRight className="h-5 w-5 text-[#B3CDE0]/50 transition-all group-hover:translate-x-1 group-hover:text-[#B3CDE0]" />
+      <ArrowRight className="h-4 w-4 text-[#B3CDE0]/50 transition-all group-hover:translate-x-1 group-hover:text-[#B3CDE0]" />
     </a>
   )
 }
 
 function Field({ label, children }) {
   return (
-    <label className="grid gap-2 text-sm font-bold text-[#B3CDE0]">
-      <span className="uppercase tracking-wider text-xs">{label}</span>
+    <label className="grid gap-1.5 text-xs font-bold text-[#B3CDE0]">
+      <span className="uppercase tracking-wider text-[10px]">{label}</span>
       {children}
     </label>
   )

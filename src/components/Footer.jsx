@@ -1,33 +1,36 @@
-import { ArrowUpRight, Sparkles } from 'lucide-react'
+import { ArrowUpRight, Phone, Mail, MessageCircle } from 'lucide-react'
+import logo from '../callora.jpg'
 
-export default function Footer({ navLinks, socials }) {
+export default function Footer({ navLinks = [], socials = [], contact = {} }) {
+  const items = navLinks.map((item) => {
+    if (typeof item === 'string') {
+      return { label: item, href: `#${item.toLowerCase()}` }
+    }
+    return item
+  })
+
   return (
-    <footer className="border-t border-white/70 bg-white/70 backdrop-blur">
-      <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 lg:px-8">
-        <div className="h-px w-full bg-gradient-to-r from-indigo-300 via-cyan-300 to-violet-300" />
-        <div className="mt-10 grid gap-10 lg:grid-cols-[1.3fr,0.9fr,0.9fr]">
-          <div className="max-w-md">
+    <footer className="relative mt-20 border-t border-white/10 bg-[#0C1446]/90 backdrop-blur-xl">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0C1446] pointer-events-none" />
+      <div className="relative mx-auto max-w-7xl px-6 py-16 sm:px-8 lg:px-10">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.3fr,1fr,1fr]">
+          <div>
             <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 via-violet-500 to-cyan-400 text-white shadow-glow">
-                <Sparkles className="h-5 w-5" />
-              </span>
-              <div>
-                <p className="text-lg font-semibold tracking-[0.28em] text-slate-900">CALLARO</p>
-                <p className="text-[10px] uppercase tracking-[0.35em] text-slate-400">AI Agency</p>
-              </div>
+              <img src={logo} alt="CALLORA Logo" className="h-10 w-10 rounded-full object-cover" width="40" height="40" />
+              <p className="text-2xl font-extrabold tracking-tight text-white">CALLORA</p>
             </div>
-            <p className="mt-5 text-sm leading-7 text-slate-600">
-              Premium AI solutions, automation, development, and customer operations designed for modern growth.
+            <p className="mt-5 max-w-md text-xs leading-relaxed text-[#B3CDE0]/80 font-medium">
+              Premium AI and digital solutions for modern businesses seeking operational speed, smart customer support, and scalable growth.
             </p>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500">Quick Links</h4>
-            <ul className="mt-5 space-y-3 text-sm text-slate-600">
-              {navLinks.map((item) => (
-                <li key={item}>
-                  <a href={`#${item.toLowerCase()}`} className="inline-flex items-center gap-1 transition hover:text-slate-900">
-                    {item} <ArrowUpRight className="h-4 w-4" />
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B3CDE0]">Quick Links</p>
+            <ul className="mt-6 space-y-3 text-xs font-semibold text-white/90">
+              {items.map((link) => (
+                <li key={link.label}>
+                  <a href={link.href} className="inline-flex items-center gap-1 transition hover:text-[#B3CDE0]">
+                    {link.label} <ArrowUpRight className="h-3.5 w-3.5" />
                   </a>
                 </li>
               ))}
@@ -35,22 +38,41 @@ export default function Footer({ navLinks, socials }) {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500">Social</h4>
-            <ul className="mt-5 space-y-3 text-sm text-slate-600">
-              {socials.map((item) => (
-                <li key={item.label}>
-                  <a href={item.href} className="transition hover:text-slate-900">
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B3CDE0]">Contact & Social</p>
+            <div className="mt-6 space-y-3 text-xs font-semibold text-white/90">
+              {contact?.phoneNumber && (
+                <p className="flex items-center gap-2">
+                  <Phone className="h-3.5 w-3.5 text-[#B3CDE0]" /> {contact.phoneNumber}
+                </p>
+              )}
+              {contact?.email && (
+                <p className="flex items-center gap-2">
+                  <Mail className="h-3.5 w-3.5 text-[#B3CDE0]" /> {contact.email}
+                </p>
+              )}
+              {socials.length > 0 && (
+                <div className="pt-2 flex flex-wrap gap-3">
+                  {socials.map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target={social.href?.startsWith('http') ? '_blank' : undefined}
+                      rel={social.href?.startsWith('http') ? 'noreferrer' : undefined}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] font-bold text-white transition hover:bg-white/10"
+                    >
+                      {social.icon ? <social.icon className="h-3.5 w-3.5" /> : null}
+                      {social.label}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-4 border-t border-white/70 pt-6 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 CALLARO. All rights reserved.</p>
-          <p>Luxury AI experiences with modern clarity.</p>
+        <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-6 text-xs text-[#B3CDE0]/70 sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 CALLORA. All rights reserved.</p>
+          <p>Luxury AI & BPO solutions with modern clarity.</p>
         </div>
       </div>
     </footer>

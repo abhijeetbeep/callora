@@ -72,7 +72,7 @@ export const testimonials = [
   {
     name: 'Ayesha Malik',
     role: 'Founder, NovaGrid',
-    quote: 'CALLARO translated our vision into a polished AI experience that feels premium and immediate.',
+    quote: 'CALLORA translated our vision into a polished AI experience that feels premium and immediate.',
   },
   {
     name: 'Daniel Carter',

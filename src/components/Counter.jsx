@@ -35,12 +35,12 @@ export default function Counter({ value, label, suffix = '' }) {
   }, [value])
 
   return (
-    <div ref={ref} className="rounded-[24px] border border-white/70 bg-white/75 px-5 py-4 shadow-soft backdrop-blur">
-      <div className="text-2xl font-semibold text-slate-900 sm:text-3xl">
+    <div ref={ref} className="glass-card-premium px-5 py-4 text-center">
+      <div className="text-2xl font-extrabold text-white sm:text-3xl">
         {count}
         {suffix}
       </div>
-      <div className="mt-1 text-xs font-medium uppercase tracking-[0.3em] text-slate-500">{label}</div>
+      <div className="mt-1 text-[10px] font-bold uppercase tracking-[0.25em] text-[#B3CDE0]">{label}</div>
     </div>
   )
 }

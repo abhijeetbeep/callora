@@ -8,12 +8,19 @@ export default {
         glow: '0 0 0 1px rgba(255,255,255,0.6), 0 24px 80px rgba(99, 102, 241, 0.16)',
       },
       colors: {
+        callora: {
+          dark: '#0C1446',
+          navy: '#0C1B45',
+          blue: '#2B5C92',
+          ice: '#B3CDE0',
+          card: 'rgba(12, 18, 48, 0.6)',
+        },
         callaro: {
-          primary: '#4F46E5',
-          secondary: '#7C3AED',
-          accent: '#06B6D4',
-          bg: '#F8FAFC',
-          card: 'rgba(255,255,255,0.78)',
+          primary: '#2B5C92',
+          secondary: '#0C1446',
+          accent: '#B3CDE0',
+          bg: '#0C1446',
+          card: 'rgba(12, 18, 48, 0.6)',
         },
       },
       backgroundImage: {
